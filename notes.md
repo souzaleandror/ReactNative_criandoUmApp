@@ -712,3 +712,425 @@ Estilizar componentes:
 A fim de sermos mais fiéis ao layout, usamos estilos para mudar fontes, tamanhos, alinhamentos, espaçamentos e cores.
 Fonte externa:
 Usando uma biblioteca do expo, adicionamos uma fonte externa do Google Fontes e aplicamos um texto na nossa aplicação.
+
+#### 18/11/2023
+
+@03-Refatorando
+
+@@01
+Projeto da aula anterior
+
+Caso queira começar daqui, você pode baixar o projeto da aula anterior nesse link.
+
+https://github.com/alura-cursos/react-native-comecando-do-zero-/tree/aula2
+
+@@02
+Componente de texto
+
+[00:00] Na última aula nós criamos o componente de cesta e nós também adicionamos uma fonte customizada à nossa cesta, mas nós vimos que adicionar aqui como fontFamily fica um pouco maçante de termos que replicar e lembrar que estamos utilizando essa fonte cada vez que adicionarmos um texto.
+[00:17] Então ia ser muito bom se tivesse uma forma de que todos os textos já tivessem a fonte que queremos. Nós podemos criar um componente para utilizarmos sempre esse componente no lugar do texto e que ele já tenha por padrão esse estilo.
+
+[00:35] Vamos fazer o seguinte: vamos criar um componente que faça isso. Para isso, nós podemos criar uma pasta chamada "componentes" aqui dentro da "src".
+
+[00:54] Então eu vou criar uma pasta chamada "componentes " e nessa pasta nós vamos criar o nosso componente de texto. Eu vou criar um novo arquivo aqui chamado "Texto.js"
+
+[00:59] Aqui nós vamos começar importando o React porque nós sempre temos que fazer isso nos nossos componentes importar o React from react e vamos exportar como default o nosso componente. Então, export default function Text(){} e return, o que nós queremos que tenha neste texto. Para exibirmos o texto nós precisamos usar o Text
+
+[01:29] Então vamos usar o Text aqui, importando ele do react-native, então: import {text} from react-native;.
+
+[01:47] Agora nós já importamos e nós queremos que o texto que seja passado dentro do texto, nosso componente de texto, igual a como fazemos aqui no Text seja passado para dentro desse Text aqui. Como nós podemos fazer isso?
+
+[02:03] O React Native já nos disponibiliza todos os elementos filhos, o que está dentro aqui, nós chamamos de filho. Por exemplo: os filhos da View são esses, então nós podemos pegar esses elementos filhos chamando children. A palavra children é “filhos” em inglês.
+
+[02:24] Então nós temos aqui o elemento children e nós podemos passar ele entre chaves, dentro do texto para pegarmos tudo que for passado para dentro desse componente.
+
+[02:38] Aí nós passamos também para dentro do Text utilizando chaves. Vamos salvar e nada vai acontecer, porque não estamos chamando esse componente; mas vamos aplicar a fonte nesse componente. Para aplicarmos a fonte, nós precisamos criar os estilos.
+
+[02:58] Então vamos criar aqui: const estilos = StyleSheet.create e aí vamos ter um objeto de estilos. Vamos chamar de texto mesmo o estilo que vai ter fontFamily: e o nome da fonte, que é MontserratRegular.
+
+[03:25] Agora nós aplicamos esse estilo dentro do Text. Então no Text nós vamos adicionar a propriedade style = {estilo.texto}. Agora estamos aplicando esse estilo de fonte regular no nosso texto.
+
+[03:47] Vamos importar o texto aqui dentro da "Cesta.js". Então eu vou adicionar aqui em cima o import Texto from ../ e vou voltar uma pasta, componentes/Texto. Agora nós pegamos esse texto e aplicamos em algum texto para testarmos.
+
+[04:14] O importante é que esse texto não seja em negrito porque nós estamos utilizando a fonte regular e aí o fontWeight: "bold" não vai funcionar, como já vimos na aula que utilizamos a fonte.
+
+[04:28] Vamos pegar aqui uma fonte que não está em negrito. Pode ser aqui a descrição. Então eu vou pegar aqui a descrição e vou colar aqui no lugar de Text. Vai ser Texto. Salvamos.
+
+[04:44] Olhe, ela até pegou a fonte, mas ficou de uma forma diferente, mudou a cor da fonte também. Por que isso aconteceu? Porque nós estamos aplicando fontFamily: "MontserratRegular", mas estamos esquecendo de aplicar o estilo dessa descrição. A descrição aqui tem outro estilo, ela tem uma cor, um lineHeight e um tamanho de fonte também.
+
+[05:13] Nós precisamos fazer com que esse estilo que está sendo passado para o texto não seja esquecido. Então vamos vir aqui no Texto e vamos pegar esse style.
+
+[05:25] Como que nós fazemos isso? Damos uma vírgula aqui depois do children, nós pegamos o style como parâmetro do nosso componente também. Aí nós podemos passar um array de estilos aqui no style.
+
+[05:39] Então eu vou adicionar aqui os colchetes para delimitar um array no Java Script. Na primeira posição eu vou passar o style que veio aqui do componente de texto, do componente superior; e aí depois eu vou passar esse estilos.texto.
+
+[05:57] Vamos salvar. Pronto, agora nós já temos a fonte de volta certa! Se nós comentarmos isso aqui ele vai voltar a outra fonte. Então está funcionando.
+
+[06:09] Mas agora, como nós fazemos para aplicarmos isso na fonte bold também, no negrito? Porque nós utilizamos outro nome de fontFamily. Vamos até criar aqui dentro do Texto outro estilo chamado textoNegrito: e ele vai ser um objeto, claro, com fontFamily:. Aí nós temos que botar aqui a fontFamily: "MontserratBold". A MontserratBold está aqui já.
+
+[06:49] Agora nós podemos aplicar esse estilo. Mas de que forma vamos saber que o texto tem que ser bold? Nós poderíamos passar um outro parâmetro aqui falando que é bold, por exemplo.
+
+[07:03] Nós poderíamos duplicar esse texto aqui, criando dois textos, o texto normal e o texto negrito. Aí o texto negrito seria em negrito, ou nós poderíamos utilizar uma coisa que já estamos fazendo, que é passando fontWeight: "bold".
+
+[07:17] Todos os programadores de React Native vão saber que fontWeight: "bold" vai fazer com que o texto fique em negrito. Então nós poderíamos manter essa mesma estrutura. Como que fazemos isso? Simples! É só pegarmos aqui do style o fontWeight: "bold". Então vamos fazer o seguinte: vamos definir qual é o estilo padrão.
+
+[07:39] Eu estou criando uma variável aqui: let estilo = estilos.texto. Então o padrão vai ser o texto normal. Aí podemos fazer um if aqui. Se o style.fontWeigh === 'bold', se o fontWeight for bold nos estilos desse componente, nós vamos trocar esse estilo. Então nós setamos o estilo = estilos.textoNegrito.
+
+[08:19] Então quando não tiver o bold, nós vamos aplicar o estilo normal, a fonte MontserratRegular; quando tiver o bold, nós vamos aplicar a fonte MontserratBold. Vou salvar aqui e nada vai acontecer. Vamos ver... Até vou recarregar aqui para ter certeza.
+
+[08:45] Nós também temos que tomar cuidado com uma coisa: quando nós não setamos o bold, caso ele tiver algum problema de achar esse style aqui, por exemplo. Vamos tirar o estilo de dentro do texto, eu vou tirar o estilo para testarmos.
+
+[09:04] Se eu salvo aqui, nós temos um erro, porque esse componente não tem nenhum estilo - e não precisa ter mesmo. Tem componentes que não vão ter estilo, eles só querem exibir o texto e pronto.
+
+[09:18] Aí, o que acontece? Ele bate aqui no nosso if no Texto, verificando se o style.fontWeight='bold'. Mas nós não temos nem o style, como que eu vou saber o que é fontWeight? Ele vai nos dar um erro.
+
+[09:34] O que nós podemos fazer para corrigir esse erro é simplesmente adicionarmos uma interrogação após o style do if. Essa interrogação faz com que se houver o style nós verificamos o fontWeight. Se não, nós já sabemos que não vai dar certo.
+
+[09:49] Vamos salvar. Pronto, agora nós já prevenimos esse erro de acontecer! Se não tiver o estilo, ele mesmo assim vai ser exibido de uma forma que não é o negrito.
+
+[10:01] Agora nós voltamos o texto para mantermos o estilo bonito e temos o nosso componente de Texto aqui devidamente implementado. Vamos testar agora no negrito.
+
+[10:15] Vamos pegar o negrito aqui, então, que é o texto de topo. Eu vou adicionar aqui Texto dentro da "Cesta.js", o Text que tem o título da página eu vou trocar para o Texto que acabamos de criar.
+
+[10:34] Salvei aqui e olhe só, parece que não está sendo aplicada a fonte. Por quê? Lembra que quando nós utilizamos a fonte pela primeira vez nós vimos que quando o fontWeight é bold a fonte não funciona? Porque a fonte normal, o modo normal dela já é a fonte bold.
+
+[10:55] Então nós precisamos fazer com que esse fontWeight seja passado como bold aqui, porém no texto, quando nós aplicamos a fonte bold queremos que ele seja regular. Então eu vou adicionar aqui fontWeight no texto negrito, no estilo do texto; fontWeight vai ser a fonte normal. Vamos salvar.
+
+[11:20] E também tem outra coisa que nós acabamos esquecendo, que foi de usar esse estilo. Nós estamos usando sempre o estilo do texto. Então nós precisamos vir aqui no texto e alterar no array de estilos, deixar o style e o estilo que nós criamos.
+
+[11:36] Então vamos salvar e agora sim! Se nós comentarmos aqui, nós teremos outra fonte. Se deixarmos o fontWeight: 'normal' no texto em negrito, nós teremos a fonte MontserratBold.
+
+[11:50] Outro detalhe também é de adicionarmos esse fontWeight. Deixe-me até mudar as aspas aqui para ficar igual. Vamos adicionar o fontWeight: "normal" aqui no estilo do texto também. Por quê? Porque nós não queremos que o usuário venha aqui e digite, por exemplo, fontWeight: "600".
+
+[12:11] Aí ele vai vir aqui, vai aplicar o texto e vai ser o MontserratRegular; só que se não tivermos o normal, não vai funcionar porque ele vai pegar o fontWeight: "600" - que não existe nessa fonte regular, apenas no normal.
+
+[12:25] Então nós aplicamos aqui no Texto também, no estilo do texto o fontWeight: "normal". Agora nós já temos o nosso componente de Texto finalizado. Vamos aplicar ele em todos os textos aqui da nossa aplicação. Dentro da "Cesta.js" eu vou selecionar o texto aqui e aplicar em todos eles.
+
+[12:51] Tem um macete muito legal que nós podemos utilizar aqui no VS Code que é a seleção, apertando as teclas "Ctrl + D" ou "Command + D". Então eu selecionei o Text, apertei as teclas "Command + D" e ele selecionou próximo que é igual. Fazendo isso mais uma vez, ele vai selecionando os próximos. Então o próximo eu não vou selecionar porque já está Texto.
+
+[13:14] Selecionei quatro textos e agora eu posso editar eles ao mesmo tempo. Então eu vou apertar a seta para o lado para ele tirar a seleção e ficar só com o cursor e vou digitar a letra "O". Pronto, ele já aplicou Texto em todos eles e falta só esse último aqui, que eu vou fazer manualmente mesmo, porque nós tínhamos um no meio.
+
+[13:33] Salvando... Agora nós já temos todas os textos customizados aqui. Só que parece que a Cesta de Verduras ainda não está negrito. Por quê? Porque nós já tínhamos aplicado a fontFamily aqui.
+
+[13:47] Então vamos tirar a fontFamily aqui do nome e vamos trocar para dentro dos estilos da Cesta. Nós temos o nome e trocamos esse fontWeight do nome, a fontFamily do nome para adicionarmos a fontWeight: "bold", para nós utilizarmos o nosso bold lá do nosso componente de texto.
+
+[14:11] Pronto, agora a Cesta de Verduras já é bold e tem mais um aqui - o nome da fazenda, nós podemos remover o fontFamily que nós não precisamos mais.
+
+[14:21] Pronto, agora nós temos a nossa aplicação com todos os textos estilizados, com a nossa fonte customizada e nós estamos reutilizando esse componente!
+
+[14:31] Então nós estamos vendo na prática as vantagens de utilizarmos componentes, que é basicamente para reutilizarmos de forma mais fácil e fazermos com que nossa aplicação fique mais fácil de desenvolver. Então quando chegar um desenvolvedor novo, ele vai simplesmente utilizar o Texto ao invés do Text e aplicar os estilos manualmente.
+
+[14:51] Na próxima aula nós vamos reestruturar um pouco a nossa aplicação para criarmos vários componentes e organizarmos melhor essa tela de cesta. Te verei em breve!
+
+@@03
+Cesta componentizada
+
+[00:00] Neste vídeo nós vamos melhorar a estrutura do nosso projeto, reestruturando a nossa aplicação, a nossa tela, em vários componentes.
+[00:09] Lembrando que os componentes não servem só para nós reutilizarmos eles, eles servem para organizarmos a nossa aplicação também. Fazendo assim, fica mais fácil de entendermos a nossa aplicação e darmos manutenção depois, fazermos alterações.
+
+[00:22] Então, por onde nós começamos? Nós podemos começar olhando a nossa "Cesta.js". Olhamos aqui e podemos pensar em como nós podemos dividir isso. Nós temos algumas partes.
+
+[00:33] Nós temos a parte de topo da aplicação e a parte de detalhes. Então nós podemos fazer isso mesmo, criar um componente que vá armazenar o topo e outro componente que vai armazenar os detalhes.
+
+[00:45] Mas onde que vamos criar esses componentes? Nós vamos adicionar na pasta "componentes"? Pode até fazer sentido porque são componentes, mas esses componentes servem para que utilizemos em toda a aplicação.
+
+[00:59] Esse topo e o detalhe nós não vamos utilizar em toda a aplicação normalmente. Nós vamos utilizar só dentro da cesta. Então nós vamos colocar ele dentro da cesta, mas nós vamos criar uma pasta chamada "cesta" para armazenarmos todos eles - não no mesmo arquivo, senão vai ficar do mesmo tamanho que já está agora, ou maior ainda.
+
+[01:20] Então vamos fazer o seguinte: aqui em "telas" vamos criar uma nova pasta chamada "Cesta", que é a pasta que vai ter os componentes da Cesta e outra chamada "componentes".
+
+[01:36] Agora, a nossa Cesta tem componentes, mas a nossa Cesta, a "Cesta.js" está fora da pasta da "cesta". Ia ser legal que ela estivesse dentro lá também. Então vamos arrastar a "Cesta.js" para dentro.
+
+[01:51] Agora ele já diz aqui que é para atualizarmos os import. Eu vou dar "No" aqui para fazermos isso manualmente.
+
+[01:59] Nós temos aqui primeiro o erro que não temos a "Cesta", não existe "telas/Cesta" aqui onde estamos importando no "App.js". Nós importamos a nossa Cesta de src/telas/Cesta.
+
+[02:17] Agora tem mais uma cesta aqui. /Cesta, nós poderíamos fazer isso e ia resolver, mas tem uma forma melhor de fazermos isso sem alterarmos esse import. Nós podemos simplesmente renomear a "Cesta.js" para index.js.
+
+[02:36] O React Native reconhece que o index.js é a representação da Cesta. Então nós não precisamos alterar o nosso App.js. Quando nós colocamos src/telas/Cesta, ele já vai buscar o index.js que tem dentro dessa pasta, mas ainda está dando erro aqui.
+
+[02:57] Agora o erro mudou de lugar, o erro está dentro do próprio “index”. Ele está falando que não existe o Texto - e de fato ele não existe nesse caminho. Então nós olhamos aqui o Texto e vemos que está usando um caminho aqui no import. Nós precisamos voltar mais uma pasta, porque nós adicionamos o “index” dentro de uma pasta.
+
+[03:19] Então em cada um dos import aqui no Texto eu vou adicionar ../. Pronto, agora nossa aplicação está funcionando! Nós já atualizamos os import para corresponderem à pasta que criamos aqui e nós também já estamos utilizando o “index”.
+
+[03:40] Agora eu vou fechar o "App.js" e nós vamos dar uma olhada melhor no “index” da nossa cesta. Nós temos o topo e queremos criar o componente topo.
+
+[03:52] Vamos vir aqui no "componentes", na pasta "componentes" que nós criamos dentro dessa "Cesta" e vamos criar um arquivo chamado "Topo.js" para armazenar o componente do topo.
+
+[04:06] Aí nós precisamos, como todo componente, dar um import no React from 'react', export default function Topo () {} e return o nosso componente. O que vamos retornar? Deixe-me ver aqui, escrevi default errado... Nós vamos retornar esses dois, a imagem e o texto do topo. Então são a imagem de topo e o título.
+
+[04:48] Eu vou apertar as teclas "Ctrl + X" aqui do “index” e vou colar aqui no "Topo", mas repare que nós não podemos retornar dois componentes soltos assim. Nós sempre temos que fazer o retorno de um único componente.
+
+[05:03] Esse componente pode ter vários filhos, mas nós não podemos retornar duas coisas soltas assim, então vamos utilizar aqui o fragment de novo, para retornar esses componentes sem precisarmos adicionar uma View ou qualquer outra coisa. Então ele vai só agrupar eles sem criar uma nova estrutura ali no nosso layout.
+
+[05:24] Nós já criamos a parte do topo, mas ela ainda não vai funcionar porque nós não estamos importando o Image nem o Texto, não tem os estilos aqui, não tem nada disso nesse arquivo. Nós precisamos fazer isso!
+
+[05:38] Vamos começar importando { Image } from react-native e nós também precisamos importar o Texto dos nossos componentes. Então, dois pontos, volta três pastas - ./componentes/Texto.
+
+[06:04] Nós já importamos os dois, agora nós precisamos adicionar também a imagem de topo, que está no “index”. Então eu vou copiar aqui o import do topo do “index” e vou colar aqui dentro do Topo.js.
+
+[06:18] Falta também os estilos. Aqui embaixo eu vou criar uma constante estilos: const estilos = StyleSheet.create, para criarmos os nossos estilos e aí é um método. Nós abrimos e fechamos parênteses e adicionamos um objeto aqui dentro com as chaves.
+
+[06:40] Agora, o que nós botamos aqui dentro? O título e o topo, o que já temos aqui no “index”. Então nós copiamos o título e o topo que estão aqui no “index”, nos estilos do “index”. Na verdadem eu vou recortar eles e vou colar aqui dentro. Vamos salvar. Eu acho que não falta mais nada.
+
+[07:00] Agora nós precisamos também importar ele aqui no “index”. Se eu salvar, ele não vai carregar aqui em cima. Então vamos adicionar. Ele está carregando... Vamos fazer um reload mais forçado porque parece que ele não está atualizando.
+
+[07:26] É comum enquanto estamos refatorando aqui que ocorra alguns problemas, porque os arquivos estão mudando de lugar e o React Native dá uma perdida. Então vamos vir aqui no terminal, parar ele e startar novamente. Digite npm start, caso aconteceu com você alguma coisa nesse sentido.
+
+[07:45] Vou rodar ele aqui de novo no simulador e vamos ver se ele carrega aqui. Pronto, agora ele carregou sem o título, sem o topo, porque nós removemos ele e vamos testar o componente de Topo que nós adicionamos.
+
+[08:13] Então aqui no “index” nós digitamos Topo, <Topo /> para nós adicionarmos o nosso componente aqui. Nós podemos fechar ele aqui, porque não tem nada dentro dele. Então vamos importar ele aqui também.
+
+[08:33] Digitamos import Topo from e aí nós podemos dar um ponto barra, porque ele está aqui dentro dos "componentes" mesmo ./componentes/Topo. Vamos salvar e ver se ele vai recarregar aqui com o topo.
+
+[08:52] Muito bem, ele está dando erro aqui que o arquivo de Topo.png não existe. De fato, ele não existe, porque esse arquivo "Topo" está dentro de uma pasta. Então nós precisamos voltar mais uma pasta aqui no topo dentro do "Topo.js" e vamos recarregar ele aqui.
+
+[09:08] Teclas "Command + M" ou "Ctrl + M". Tem que salvar aqui primeiro. Agora sim, agora ele está dando outro erro que fala que a variável width, a largura não está sendo encontrada porque nós não adicionamos ela aqui. Então nós temos que remover o width do “index” onde estávamos pegando a largura da tela e adicionar aqui também no "Topo".
+
+[09:35] Então vamos adicionar e importar Dimensions do react-native que estávamos utilizando para pegar essa variável. Agora nós temos o nosso topo de volta na nossa tela! Então está funcionando o nosso topo. Agora nós fazemos a mesma coisa aqui para a parte de baixo de detalhes.
+
+[09:54] Então, vamos lá! Aqui dentro dos "componentes" e, como um “irmão” do Topo.js vamos criar o Detalhes.js. Importamos aqui de React o react e export default function Detalhes(){}. Retornamos o que dessa vez? Vamos adicionar aqui já o nosso fragmento e nós vamos aqui e pegamos os textos.
+
+[10:36] Mas por que vamos deixar essa View no “index”? Não seria legal nós arrastarmos ela junto? Não necessariamente, porque aqui embaixo, lembra que todo o resto da aplicação vai ter essa margem? E a cesta está aplicando essa margem? Nós podemos deixar ele aqui e adicionar o resto da aplicação aqui dentro como outros componentes.
+
+[10:56] Então aqui para o Detalhes vamos adicionar só o Texto mesmo. Nós damos uma identada aqui. Temos que importar aqui todos os componentes, nós temos que importar from react-native. Vamos colocar aqui a View e a Image.
+
+[11:17] Outro import, nós importamos o Texto from e nós navegamos até o nosso componente de Texto. Voltamos três pastas, entramos dentro de componentes/Texto e pronto!
+
+[11:34] Falta ainda a imagem de logo que está no “index”. Então nós pegamos aqui a imagem de logo dentro do “index”, colamos aqui para ela aparecer e nós também temos que voltar mais uma pasta dentro do caminho dessa imagem de logo, a logo da fazenda.
+
+[11:54] Agora nós precisamos também criar uma constante de estilos aqui, a última coisa no nosso componente de "Detalhes". Digitamos estilos = StyleSheet.create( abrimos um objeto e precisamos importar o StyleSheet aqui no react-native. Quando eu apertei a tecla "Enter" ele já importou sozinho. Então lembre-se de importar o react-native.
+
+[12:20] Aqui dentro nós temos todos os estilos de nomeFazenda, imagemFazenda, a descrição e o preço também. Então vamos pegar tudo isso. Na verdade, é tudo menos a cesta. Então copiamos o resto aqui menos a cesta, dentro do estilos do "index" vai ficar só a cesta e aqui dentro do estilos do "Detalhes" vai todo o resto.
+
+[12:47] Então eu vou salvar aqui. Vamos adicionar aqui no "index" o nosso componente de Detalhes, lembrando de importar ele. Como não estamos usando o Texto aqui, eu vou tirar também e vou importar aqui Detalhes from './componentes/Detalhes', o componente que acabamos de criar.
+
+[12:18] Vamos salvar. Está recarregando aqui... Temos um erro! Não pode encontrar a View. Nós devemos ter esquecido de importar a View dentro do "Detalhes". Nós sempre temos que importar todos os componentes. Então vamos importando a View aqui.
+
+[13:35] Recarregou a nossa aplicação corretamente! Vamos ver aqui. Nós ainda temos algumas coisas que não estamos usando, vamos tirar essa Image, Dimensions aqui do "index" e vamos também dar uma recarregada só para termos certeza que está tudo funcionando corretamente.
+
+[13:52] Agora nós já temos aqui a nossa aplicação componetizada. Nós temos o "index" da nossa aplicação que só está chamando aqui os nossos componentes.
+
+[14:03] Então nós chamamos o componente de Topo e nós chamamos aqui o componente de Detalhes também. Fazendo isso, nós já conseguimos entender o que tem dentro da nossa aplicação sem precisarmos entrar em cada componente.
+
+[14:16] Então nós sabemos que vai ter uma tela de cesta. Deixe-me fechar aqui. Imagine que uma pessoa nova está chegando, ela vai olhar e vai entender: “nossa aplicação tem telas e uma das telas é a cesta, a única nesse momento. A tela de cesta, tem um "index" que vai retornar a estrutura base da cesta. E o que tem dentro dessa cesta? Tem um topo e tem detalhes”.
+
+[14:42] Fica muito mais fácil de explicar para as pessoas que estão chegando agora o que está acontecendo dentro do nosso componente.
+
+[14:50] Mas ainda tem um detalhe que não está legal na nossa aplicação. Um deles é que, por exemplo, aqui no "Topo" ou em "Detalhes", todos os textos estão manualmente inseridos aqui.
+
+[15:04] Se nós quisermos fazer alguma alteração, alguma tradução ou mandarmos alguma outra coisa por parâmetro, vai ficar bem difícil porque nós vamos ter que entrar em cada componente e alterar o texto - ou se for uma pessoa que não for de programação, vai ficar ainda mais difícil!
+
+[15:20] Então na próxima aula nós vamos fazer com que esses textos estejam todos juntos em um único arquivo de textos. Te verei na próxima aula para fazermos isso, então!
+
+@@04
+Textos generalizados
+
+[00:00] Como já vimos no último vídeo, deixar os textos aqui fixos, por exemplo, como está nos "Detalhes", não é legal. Isso porque os textos ficam espalhados pela nossa aplicação e se alguém que não está acostumado com projeto tiver que mudar algum texto vai ser muito difícil para essa pessoa.
+[00:17] Além do mais, se quisermos botar, por exemplo, uma outra língua ou fazer uma tradução também vai ser bem difícil; porque os textos estão espalhados e depois a aplicação pode se tornar muito maior. Então vamos aproveitar que estamos começando e já vamos organizar todos os textos em um único arquivo.
+
+[00:34] Então vamos criar aqui na "src" uma pasta chamada "mocks" e aí criamos aqui dentro um arquivo chamado "cesta.js", que vai armazenar todos os mocks da nossa "cesta". Vou criar aqui uma constante chamada cesta e a cesta vai ser um objeto.
+
+[00:57] O que nós temos aqui dentro da nossa cesta? Nós temos o "Topo", temos os "Detalhes" e dentro de cada um deles temos várias informações. Vamos começar com o "Topo". Vou pegar o "Topo". O que nós temos no "Topo" que poderíamos armazenar? Basicamente, o título.
+
+[01:15] Essa imagem pode ser igual para todas as cestas, não tem problema, é só uma imagem representativa. Não necessariamente vai mudar para cada cesta. Então nós temos aqui no "Topo" o título.
+
+[01:27] Vamos criar dentro da "cesta.js" o topo, que vai ser um objeto. Dentro do topo temos o titulo:. Eu vou colar aqui "Detalhe da cesta". Então a nossa cesta é essa estrutura. Tem um topo e o título.
+
+[01:48] Já vamos aproveitar e exportar como default esse objeto de cesta. Sim, nós podemos exportar objetos - nós podemos exportar qualquer coisa, não necessariamente componentes.
+
+[02:02] Agora nós já temos tudo que o nosso topo precisa. Vamos salvar aqui e vamos olhar o resto da aplicação. Nós vamos também os "detalhes". Então eu vou criar uma outra chave aqui, uma outra propriedade irmã do topo chamada detalhes.
+
+[02:20] Dentro de detalhes, que é um objeto, vão ter várias informações: vai ter o nome da cesta, vai ter as informações da fazenda, vai ter também a descrição e o preço. Então vamos adicionar isso aqui.
+
+[02:33] Ficou nome:. O nome eu vou pegar já diretamente dos "Detalhes". Fica mais fácil copiar daqui. O nome é Cesta de Verduras. Aí nós temos aqui o nome da fazenda. Vou copiar aqui nomeFazenda e o nomeFazenda é Jenny Jack Farm.
+
+[03:04] Nós temos também a descricao. Vou copiar ela aqui também, que é mais comprida. Nós colocamos entre aspas sempre, como é um texto, o preco também. O preco é R$ 40,00. Até para mudarmos o preço ou alguma coisa assim também fica bem mais simples.
+
+[03:38] Vou salvar aqui e nós vamos ver se temos tudo. Nós temos o nome da cesta, nós temos a fazenda, nós temos a descrição e o preço, mas e essa logo da fazenda?
+
+[03:49] Não vão ser todas as fazendas que vão ter a mesma imagem. Essa imagem é exclusiva para essa fazenda. Então nós temos que passar ela aqui também. Ela não é uma string, mas ela é uma informação que viria para nós dessa forma.
+
+[04:02] Então vamos tirar a logo fixa daqui. Dentro de "Detalhes" eu vou remover o import da logo, copiar ele e vou colocar aqui dentro da "cesta.js", que nós criamos dentro dos "mocks".
+
+[04:18] Aí é bem simples, basta colocarmos aqui dentro como uma chave do detalhes, logoFazenda:. Eu vou passar a logo mesmo. Nós vamos salvar a "cesta.js" aqui e os detalhes agora eu vou deixar aqui ainda, porque se eu salvar agora vai dar erro, vai estar sem a logo.
+
+[04:43] Agora, como nós fazemos para chamar isso, para começarmos a usar e colocar essa logo que está vindo da "cesta.js" e os outros textos também? Vamos vir aqui no "App.js" e aqui nós vamos importar esse "mock". Digitamos import mock from ./. O "mock" está dentro de "src/mocks/cesta".
+
+[05:20] Eu vou passar esse mock para dentro da cesta que estamos retornando aqui dentro do SafeAreaView. Eu vou copiar o mock aqui e vou passar para dentro da Cesta.
+
+[05:30] Como nós podemos fazer isso? Nós temos várias coisas aqui dentro dos detalhes da cesta, na verdade. Nós temos o topo, os detalhes - ou poderíamos simplesmente fazer o seguinte: cesta = {mock} que ia englobar toda nossa cesta.
+
+[05:47] Mas tem uma forma melhor de fazermos isso, neste caso. Nós poderíamos desconstruir esse mock e passar todos os parâmetros como se fossem descritos aqui.
+
+[06:00] Se nós colocarmos três pontos na frente do mock nós removeríamos a camada externa do objeto e passaríamos cada parâmetro como se fosse um parâmetro da cesta. Então fazer isso é a mesma coisa que eu tirar de dentro da cesta esses colchetes e enviar o topo e o detalhes manualmente.
+
+[06:24] Então aqui na Cesta seria a mesma coisa que eu declarar que topo = {mock.topo} e que detalhes={mock.detalhes}. Os três pontos mock é igual a declararmos tudo isso na mão.
+
+[06:52] Então para ser mais simples podemos fazer simplesmente abrir e fechar chaves aqui e colocar ...mock. Lembrando que nós sempre temos que usar as chaves se queremos fazer essa estrutura.
+
+[07:07] Agora está dando erro aqui quando eu salvei, porque a logo não existe. De fato, nós mudamos a pasta, está totalmente diferente. O assets já está aqui na raiz. Então, vamos só colocar dentro da cesta ./assets e vamos ver se vai carregar.
+
+[07:23] Na verdade, ele não está não. Ele está dentro agora dos mocks. Então nós voltaremos duas pastas. Vamos vir aqui - voltamos uma pasta, voltamos duas pastas e agora sim, está funcionando! Então a logo que está dentro da "cesta.js", nós precisamos voltar apenas duas pastas.
+
+[07:45] Nós adicionamos o mock passando aqui para a Cesta. Agora, como nós fazemos para pegar isso? Lá na "cesta.js", no nosso aplicativo, no nosso componente de cesta, no "index.js" nós vamos pegar esses dados da mesma forma que já fizemos no Texto. Nós utilizamos as chaves aqui e vamos pegar o topo e a descricao.
+
+[08:11] Lembra que nós desconstruímos, então nós já podemos pegar diretamente o que está aqui dentro - que é o topo e a descricao. Não é descricao, é detalhes. O topo e os detalhes.
+
+[08:23] Agora nós fazemos a mesma coisa para o topo. Então nós viemos aqui e desconstruímos o Topo com três pontos dentro do Topo, nós abrimos como propriedade, {...topo}. Agora, vamos para o topo para testarmos primeiro o topo separado.
+
+[08:46] Vamos abrir o "Topo.js" e aqui no Topo nós vamos pegar os valores que são correspondentes de dentro do topo, que é basicamente só o título. Então vamos pegar o título utilizando as chaves na declaração do Topo e vamos substituir o titulo aqui pelo titulo que está vindo pela variável.
+
+[09:08] Então eu vou apagar esse Detalhe da Cesta. Lembrando que para exibir o texto que vem de uma variável, nós precisamos colocar as chaves titulo.
+
+[09:18] Vou salvar e o título vai continua o mesmo. E se eu alterar o título no "cesta.js"? Vou colocar Detalhes da cesta. Pronto, já está atualizando aqui de Detalhes da cesta! Ele está pegando o que está aqui na nossa "cesta.js" dentro dos "mocks" mesmo. Está funcionando!
+
+[09:38] O topo nós já terminamos. Agora vamos fazer a mesma coisa aqui dentro do "index" para os detalhes. Vamos vir aqui no componente de Detalhes e passar como parâmetro a desconstrução do detalhes. Agora nós conseguimos acessar cada um dos parâmetros de detalhes dentro do componente de Detalhes.
+
+[10:04] Vamos abrir ele aqui. Eu vou salvar esse aqui. Na declaração da função Detalhes nós abrimos e fechamos chaves de novo e pegamos os parâmetros.
+
+[10:18] O parâmetro vai ser o nome. Na imagemFazenda eu acho que eu coloquei logoFazenda, é logoFazenda, nomeFazenda, descricao e preco. Agora nós fazemos a mesma coisa aqui e substituímos os textos pelas variáveis que estão vindo por parâmetro.
+
+[10:48] Vamos apagar aqui a Cesta de Verduras e adicionar o nome, passando ao redor de chaves. A logoFazenda nós substituímos na imagem, no source dela. Nós tiramos a logo e colocamos logoFazenda.
+
+[11:05] O nomeFazenda nós tiramos Jenny Jack Farm e colocamos aqui nomeFazenda, a descricao também. Tiramos esse texto gigantesco da descricao e printamos a descricao. E por último, o preco. Vamos salvar e ver o que acontece.
+
+[11:38] Está carregando aqui. Vamos testar! Vou alterar o preço para R$ 30,00, vou baixar o preço aqui... Já está funcionando!
+
+[11:50] Agora nós podemos dar uma olhada aqui nos "Detalhes" e remover o import da logo que não estamos mais utilizando. Agora nós já reestruturamos a nossa aplicação para que os textos e a imagem também fiquem todos em um lugar só - mas vamos voltar um pouco e entender melhor o que nós fizemos.
+
+[12:10] Nós criamos uma pasta chamada "mocks". O que é "mocks"? De onde que veio isso? Na programação, mocks são informações ou funções que podemos fazer para substituirmos as funções originais e para evitarmos sujar os dados originais, não utilizarmos os bancos de dados originais ou as APIs enquanto estamos testando a nossa aplicação.
+
+[12:34] Ou no nosso caso, nós estamos utilizando mocks, que são dados fictícios para exibirmos na nossa aplicação. Porque nós não temos nenhum banco de dados e nós também não temos nenhuma API para fazermos requisições, uma API REST que vai nos retornar esses dados. Então, neste caso, nós estamos usando esse arquivo aqui para simbolizar essa API ou esse banco de dados nos retornando esses dados.
+
+[13:01] Agora que já isolamos os textos dentro desse arquivo e também praticamos um pouco passar e receber parâmetros nos nossos componentes, nós estamos quase no fim da nossa refatoração. Então continue acompanhando que no próximo vídeo nós vamos terminar ela!
+
+@@05
+Para saber mais: Mocks
+
+Os mocks na programação geralmente são utilizados em testes automatizados como forma de substituir as funções originais para que os dados reais não sejam afetados pelos testes.
+No nosso caso usamos para representar os dados, pois não temos uma API ou um banco de dados para consultar. Caso queira o arquivo src/mocks/cesta.js, este é o seu conteúdo:
+
+import logo from '../../assets/logo.png';
+
+const cesta = {
+  topo: {
+    titulo: "Detalhe da cesta",
+  },
+  detalhes: {
+    nome: "Cesta de Verduras",
+    logoFazenda: logo,
+    nomeFazenda: "Jenny Jack Farm",
+    descricao: "Uma cesta com produtos selecionados cuidadosamente da fazenda direto para sua cozinha",
+    preco: "R$ 40,00",
+  }
+}
+
+export default cesta;COPIAR CÓDIGO
+Caso queira saber mais, temos na Alura um artigo sobre mocks.
+
+https://www.alura.com.br/artigos/testes-com-mocks-e-stubs?_gl=1*zqglez*_ga*MTgwMzIzMjk2Ni4xNjg4ODE5OTcz*_ga_1EPWSW3PCS*MTcwMDMxMTc0OS4xMDguMS4xNzAwMzE1NTc4LjAuMC4w*_fplc*NVBkNW5lJTJGOHFJWCUyRkolMkZPb09JTEdkY0VMZ3VFYXQ2YkhQRk1OQVJtNGd5Tzg0RFAwdVVEV3BwQ2hDUnBNZ0xwJTJGOW01SFFhRTZtdnJJd1h3RGJFcUVFd29qemRiUjlSVzREWDZiZ3BabndtYW1MT3Y2Y1MlMkI2OFpPRDBQZnUlMkZ3JTNEJTNE
+
+@@06
+AppLoading e revisão
+
+[00:00] Agora vamos ao último ponto de melhoria desta aula! Lembra de quando nós adicionamos a fonte nós retornamos uma View enquanto a fonte estiver sendo carregada?
+[00:11] Imagine agora que essa fonte demore para carregar, que o celular está um pouco lento e o usuário tem uma tela branca enquanto isso está acontecendo. Não é legal@ Além do mais, se nós quisermos carregar outras coisas aqui, algum dado do banco de dados ou uma API, também vai ficar lento e não vai ser muito legal.
+
+[00:31] Para isso, nós precisamos dizer para o usuário que a aplicação está carregando ainda e não mostrar uma tela branca. O que poderíamos fazer? Nós poderíamos criar uma outra tela mostrando o loading, uma tela de loading, alguma coisa girando ali poderia também. Mas nós podemos utilizar algo que o Expo já está fazendo.
+
+[00:51] Vou dar um reload aqui na aplicação. Nós temos essa tela inicial, a tela que aparece antes da tela da cesta, que é a splash screen. Ela não está declarada aqui no nosso projeto como uma tela mesmo porque ela vem do Expo. Então nós deveríamos poder mostrar ela carregando; não mostrar uma tela branca, e sim deixar ela carregando.
+
+[01:14] Como nós podemos fazer isso? Vamos dar uma olhada na documentação da fonte. Abrindo a documentação da fonte nós já podemos ver que ele está usando um tal de AppLoading enquanto a fonte está sendo carregada. Nós estamos retornando a View. O que é esse AppLoading que ele está importando aqui e retornando?
+
+[01:36] Vamos dar uma olhada aqui para baixo, ele fala um pouco mais dele de novo, se clicarmos no "Using <AppLoading>". Ele explica um pouco aqui o que é esse AppLoading. Eu vou clicar e abrir diretamente a página dele. O que está escrito aqui?
+
+[01:51] Que o AppLoading fala para a splash screen para manter a splash screen visível enquanto AppLoading, o componente estiver montado. Então é isso que nós queremos mesmo.
+
+[02:02] Nós queremos que a splash screen continue aparecendo antes de mostrar o aplicativo de fato. Então enquanto a fonte estiver carregando, o AppLoading vai fazer com que a splash screen continue mostrando.
+
+[02:15] Agora, de onde que vem esse AppLoading? Ele já fala aqui do expo-app-loading. Então nós precisamos instalar ele. Vamos copiar o comando que está na biblioteca mesmo: expo install expo-app-loading.
+
+[02:32] E nós viemos aqui no nosso Terminal. Eu vou cancelar a aplicação, vou apertar as teclas "Ctrl + C" para parar o servidor do React Native. Vou colar aqui o expo install expo-app-loading e apertar a tecla "Enter".
+
+[02:44] Agora ele vai instalar essa extensão, esse pacote expo-app-loading e eu parei a aplicação para nós podermos instalar isso com ela fechada e startar, já que é um pacote externo, é legal pararmos e rodar de novo para não termos nenhum problema. Eu digito um npm start de novo para rodar a aplicação novamente.
+
+[03:07] Vou rodar aqui o simulador. Abrindo aqui o simulador, vou até fazer um reload aqui para testar se está tudo certo. Está carregando aqui. Carregou a nossa aplicação normalmente.
+
+[03:24] Agora, como fazemos para adicionar a fonte? Igual a como está na documentação. Nós só precisamos importar o App Loading from expo-app-loading, o pacote que acabamos de adicionar na nossa aplicação. Aí esse AppLoading nós vamos botar no lugar da View que está sendo retornada enquanto a fonte não está carregada. AppLoading aqui também.
+
+[03:54] Vamos salvar! Não deu nenhum erro, está recarregando aqui. Tudo certo também.
+
+[04:01] Então muitas vezes nós queremos carregar informações de outros lugares, informações externas - como dados de API REST ou informações internas mesmo, como banco de dados, um arquivo que está salvo na memória do seu celular - e esse processo pode demorar um pouco, mas é muito importante dizermos para o usuário o que está acontecendo.
+
+[04:22] Se nós só retornarmos aqui uma tela branca, o usuário pode achar que tem algum problema com a aplicação e ele pode fechar o aplicativo e nunca mais abrir, se ele achar que o aplicativo tem um bug ali que não funciona.
+
+[04:35] Então é legal sempre informar para o usuário que o aplicativo ainda está carregando - pode ser por meio da splash screen.
+
+[04:42] Vamos dar uma revisada aqui em tudo que nós fizemos até esse momento nesta aula. Olhando aqui nas pastas - nesta aula não, no curso inteiro, na verdade. Nós criamos tudo isso, nós criamos o nosso projeto utilizando o Expo.
+
+[04:58] Então todos esses arquivos foram gerados pelo Expo, nós criamos os nossos componentes aqui, o componente de tela, nós dividimos em vários componentes a nossa tela, nós utilizamos mocks, um dado falso, um dado fictício, para exibirmos todos os textos da nossa aplicação e até uma imagem.
+
+[05:20] Exibimos imagens e textos aqui também e criamos um componente não só para organizarmos a nossa aplicação, mas para reutilizarmos a nossa aplicação, que foi o texto, utilizando fonte customizável, essa fonte Montserrat que veio do Google.
+
+[05:36] Então na próxima aula nós vamos concluir o nosso layout adicionando a lista de itens da nossa aplicação. As verduras, a lista mesmo que vai ter aqui embaixo. Então te verei na próxima aula!
+
+@@07
+Parâmetros
+
+Nesta aula, refatoramos nossa aplicação e, muitas vezes, utilizamos parâmetros para passar os textos para dentro de outros componentes.
+Lembre-se dos conceitos utilizados na aula e assinale, entre os códigos abaixo, quais vão funcionar corretamente, exibindo o texto que foi passado. Falta de importações e exportações podem ser desconsiderados para esta atividade.
+
+const objeto = {
+  texto: "Alura"
+};
+<MeuComponente {...objeto} />
+
+function MeuComponente({ texto }) {
+  return <Text>{ texto }</Text>
+}
+ 
+Alternativa correta! Isso mesmo, quando desconstruímos o objeto ({...objeto}) removemos a camada exterior dele, passando o texto como parâmetro do componente, que equivale a: <MeuComponente texto={objeto.texto} />. Dessa forma, acessar o texto como parâmetro dentro do componente vai funcionar.
+Alternativa correta
+const texto = "Alura";
+<MeuComponente texto={texto} />
+
+function MeuComponente(texto) {
+  return <Text>{ texto }</Text>
+}
+ 
+Alternativa correta
+const texto = "Alura";
+<MeuComponente {...texto} />
+
+function MeuComponente({ texto }) {
+  return <Text>{ texto }</Text>
+}
+ 
+Alternativa correta
+<MeuComponente>Alura</MeuComponente>
+
+function MeuComponente({ children }) {
+  return <Text>{ children }</Text>
+}
+ 
+Alternativa correta! Exato! Para capturar o texto (ou mesmo outros componentes) que passamos dentro da chamada do componente, como “filhos” do componente, usamos a propriedade children (que quer dizer “filhos” em inglês).
+
+@@08
+Faça como eu fiz
+
+Chegou a hora de você seguir todos os passos realizados por mim durante esta aula. Caso já tenha feito, excelente. Se ainda não, é importante que você execute o que foi visto nos vídeos para poder continuar com a próxima aula.
+
+Continue com os seus estudos, e se houver dúvidas, não hesite em recorrer ao nosso fórum!
+
+@@09
+O que aprendemos?
+
+Nesta aula, aprendemos:
+Reutilizar componentes:
+Aprendemos a criar um componente reutilizável que encapsula a lógica de trocar a fonte do texto automaticamente.
+Usar parâmetros:
+Aprendemos a passar e resgatar parâmetros nos componentes.
+Desconstruir objetos:
+Conseguimos remover a camada externa dos objetos para que possamos passar cada parâmetro do objeto como um parâmetro do componente, simplificando a declaração desses parâmetros.
+Estender o tempo da splash screen:
+Usando a biblioteca do Expo para chamar o AppLoading, podemos fazer a splash screen ser exibida por mais tempo enquanto as funções do nosso app são carregadas antes de exibir o conteúdo de fato.
