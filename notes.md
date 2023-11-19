@@ -1134,3 +1134,554 @@ Desconstruir objetos:
 Conseguimos remover a camada externa dos objetos para que possamos passar cada parâmetro do objeto como um parâmetro do componente, simplificando a declaração desses parâmetros.
 Estender o tempo da splash screen:
 Usando a biblioteca do Expo para chamar o AppLoading, podemos fazer a splash screen ser exibida por mais tempo enquanto as funções do nosso app são carregadas antes de exibir o conteúdo de fato.
+
+
+#### 19/11/2023
+
+@04-Botão e lista
+
+@@01
+Projeto da aula anterior
+
+Caso queira começar daqui, você pode baixar o projeto da aula anterior nesse link.
+
+https://github.com/alura-cursos/react-native-comecando-do-zero-/tree/aula3
+
+@@02
+Preparando o ambiente: Lista de itens
+
+Nesta aula, iremos adicionar no nosso arquivo de mock (src/mocks/cesta.js) alguns outros textos e imagens da parte de lista de itens da nossa cesta. Caso prefira copiar o arquivo completo, será este:
+import logo from '../../assets/logo.png';
+
+import tomate from '../../assets/frutas/Tomate.png';
+import brocolis from '../../assets/frutas/Brócolis.png';
+import batata from '../../assets/frutas/Batata.png';
+import pepino from '../../assets/frutas/Pepino.png';
+import abobora from '../../assets/frutas/Abóbora.png';
+
+const cesta = {
+  topo: {
+    titulo: "Detalhe da cesta",
+  },
+  detalhes: {
+    nome: "Cesta de Verduras",
+    logoFazenda: logo,
+    nomeFazenda: "Jenny Jack Farm",
+    descricao: "Uma cesta com produtos selecionados cuidadosamente da fazenda direto para sua cozinha",
+    preco: "R$ 40,00",
+    botao: "Comprar",
+  },
+  itens: {
+    titulo: "Itens da cesta",
+    lista: [
+      {
+        nome: "Tomate",
+        imagem: tomate,
+      },
+      {
+        nome: "Brócolis",
+        imagem: brocolis,
+      },
+      {
+        nome: "Batata",
+        imagem: batata,
+      },
+      {
+        nome: "Pepino",
+        imagem: pepino,
+      },
+      {
+        nome: "Abóbora",
+        imagem: abobora,
+      }
+    ]
+  }
+}
+
+export default cesta;
+
+
+@@03
+Botão de compra
+
+[00:00] Depois de toda essa refatoração, vamos voltar aqui na parte dos detalhes da nossa aplicação e adicionar o botão que ficou faltando.
+[00:09] Vamos vir aqui no nosso código no React Native, dentro da pasta "src>telas/Cesta>componentes/Detalhes", que é onde nós armazenamos essa parte das informações anteriormente e vamos adicionar aqui nos imports do react - native, depois da View, o Button - que é “botão” em inglês.
+
+[00: 36] O React Native já tem um botão.Então vamos copiar aqui e colar ele, chamar ele aqui embaixo, depois dos textos, dentro ainda do fragmento.Então vamos chamar aqui o Button.Nós temos que passar um title aqui.O title vai ser o "Comprar" e nós fechamos aqui o nosso componente internamente, porque o title já vai ser o título aqui.
+
+[01: 10] Nós adicionamos aqui o botão.Está faltando um negócio aqui, porque o comprar está como uma string solta, não é para isso acontecer, nós falamos nas últimas aulas para adicionarmos como uma string, porque se eu quiser traduzir isso, seria muito mais legal que esse texto estivesse em um único lugar.
+
+[01: 29] Então vamos vir aqui nos nossos "mocks" - "src>mocks" e vamos entrar dentro da "Cesta.js" e adicionar aqui nos detalhes o botao.O botao vai ser uma string chamada "Comprar".
+
+[01: 46] Vamos salvar aqui.Agora basta pegarmos aqui o "Comprar" depois do preco.Dentro de "Detalhes.js", onde nós pegamos os parâmetros, nós adicionamos aqui o comprar também.Não é comprar, é o botao que tem o comprar dentro.
+
+[02: 12] Aí quando nós usamos o title nós aplicamos, ao invés do "Comprar" o { botao } entre chaves, ao invés de ser entre aspas, porque não estamos mais usando uma string, nós estamos chamando a referência de uma variável.
+
+[02: 28] Vamos salvar aqui e tudo vai continuar funcionando porque agora ele está pegando aqui do botão Comprar.Vou adicionar mais um R e ele já vai atualizar.Então já está atualizando com base nos nossos "mocks".
+
+[02: 43] Vou fechar o "mocks" aqui.Se você está no iOS, você pode ter percebido que esse botão está totalmente diferente.Ele é um link, parece que não tem essa borda, ele é só um botão, provavelmente azul.Isso acontece por quê ? Vamos dar uma olhada na documentação do botão no React Native.
+
+[03:02] Nós podemos vir aqui no site do reactnative.dev que tem uma busca aqui, vou apertar as teclas "Ctrl +K" e vou colar aqui button para nós entrarmos na página do button, que é / docs / button.Vamos dar uma olhada aqui no button.
+
+[03: 19] Nós já temos o código aqui e podemos ver um exemplo no iOS também, caso você não esteja no iOS.Deixe - me só diminuir um pouco aqui para poder aparecer e nós podemos dar um play para vermos como funciona no iOS.
+
+[03: 37] Pode demorar um pouco, dependendo da quantidade de usuários que estão utilizando essa feature, mas aparentemente aqui vai ser rápido.No iOS ele tem esse link mesmo, um botão com o link.
+
+[03: 47] Repare que nós não temos nenhuma outra estilização, um exemplo de alguma coisa muito mais complexa que isso.Isso porque aqui nas propriedades nós já podemos ver que a única coisa que podemos mudar é a cor.Por quê ?
+
+  [04:02] Se nós subirmos no topo da página de documentação do botão, nós já podemos ver que ele é um botão básico, um componente básico que renderiza em qualquer plataforma - porém ele renderiza com o estilo do iOS ou com o estilo do Android, no Material Design ou no formato do iOS mesmo, onde os usuários já estão mais acostumados a ver esse tipo de botão.
+
+[04: 28] Ele suporta um nível mínimo de customização.Então pode ser que esse nível mínimo, só essa cor, não seja suficiente para nós - que é o nosso caso aqui.
+
+[04: 40] Pode ver que está faltando aqui botar uma margem, esse Comprar não deveria ser todo maiúsculo, nós queríamos mudar a cor, queríamos mudar o arredondamento.Tem várias coisas que nós poderíamos querer mudar nesse botão, que o botão simples não nos dá.
+
+[04: 56] Mas aqui nós já temos uma explicação.No segundo parágrafo da documentação, se nós quisermos um botão que seja mais estilizável, nós podemos utilizar o TouchableOpacity ou o TouchableWithoutFeedback.Então vamos usar esse TouchablaOpacity.
+
+[05: 14] Vamos ir na nossa aplicação.Dentro de Detalhes.js, onde nós estávamos importando antes botão, vamos importar TouchableOpacity e também, ao invés de usarmos o botão, vamos usar o TouchableOpacity tirando o title, porque ele não vai ter o title, ele vai ter um valor dentro aqui.
+
+[05: 37] Então nós colocamos o texto do botão.Nós abrimos e fechamos a tag e colocamos o texto do botão aqui dentro entre chaves, para printar a variável.
+
+[05: 49] Mas lembra que o texto precisa sempre estar dentro do Text ? Então, vamos usar o nosso componente de Texto, que tem um Text lá dentro e nós já fizemos ali para automaticamente utilizarmos a fonte que adicionamos à fonte customizada.
+
+[06:04] Então estamos adicionando o Texto aqui e colocando o botão dentro.Vamos salvar e ver o que acontece aqui no nosso simulador.Nós temos só o texto.Um texto pequeno aqui, Comprar.
+
+[06: 27] E se nós clicamos nele, ele dá uma apagada - é a opacidade de quando nós clicamos, ele faz essa opacidade.Agora basta nós estilizarmos do jeito que quisermos.O TouchableOpacity aceita o style e o Texto também aceita o Style.Nós podemos estilizar do jeito que quisermos.
+
+[06: 46] Vamos fazer isso, então! Vamos vir aqui embaixo e criar dentro dos nossos objetos de estilo dois objetos: vai ser o botao.Nós podemos deixar ele vazio por enquanto e o textoBotao.
+
+[07:02] Também abrimos e fechamos as chaves aqui para criarmos o botão e o textoBotao com objetos vazios.Agora nós só precisamos linkar eles aqui em cima com a tag Style, com o parâmetro Style, na verdade.
+
+[07: 16] Então dentro da tag TouchableOpacity nós vamos adicionar a propriedade style = estilos.botao.Aí nós viemos aqui no Texto, que está dentro do TouchableOpacity e fazemos a mesma coisa: style = estilos, só que desta vez é o textoBotao, não é o botao em si.
+
+[07: 42] Salvamos aqui e não vai acontecer nada, porque nós ainda não adicionamos nenhum estilo dentro desses nomes que criamos.
+
+[07: 48] Vamos vir aqui no botao, no estilo do botao e vamos começar a estilizar ele.Começando pela marginTop porque ele está bem grudado no texto.
+
+[07: 57] Vamos colocar aqui uma marginTop: 16 e aí nós podemos também colocar um backgroundColor para vermos onde que ele está dentro, qual espaço ele está ocupando na nossa aplicação.
+
+[08: 14] Vamos colocar aqui um backgroundColor, que é a cor do fundo do botão como uma cor aqui que separamos, que é #, uma cor em hexadecimal, 2A9F85.Pronto, nós temos aqui o verde que está ocupando esse espaço todo aqui na tela, a largura por completo, e nós adicionamos a margem!
+
+[08: 40]Agora, seria legal nós adicionarmos um padding interno, se deixássemos que o texto tenha mais espaço dentro do botão.Então nós podemos fazer um paddingVertical.
+
+[08: 53] O paddingVertical vai dar um padding, uma margem interna em cima e embaixo do botão.O paddingVertical pode ser também de 16. Salvamos aqui e temos um espaço em cima e embaixo, dentro do botão.
+
+[09:07] Agora vamos arredondar as bordas também, o botão que temos no nosso design tem uma borda arredondada.Para arredondar a borda é muito simples, é só aplicar um borderRadius.Nós podemos aplicar o borderRadius com o valor 6 e nós já temos uma borda arredondada bem parecida com o nosso layout.
+
+[09: 33] Agora vamos começar a estilizar o texto que está dentro do botão.O que nós queremos ? Nós queremos que o texto venha para o centro primeiro, queremos pintar ele de branco e que ele fique em negrito e um pouco maior também.
+
+[09: 47] Então vamos fazer isso! Digitamos textAlign: "center" para nós colocarmos o texto no centro da tela.Aí nós podemos colocar uma color de branco.O hexadecimal de branco é #ffffff.Poderia ser só três F também, não tem problema, esse é o completo.
+
+[10:09] Aí nós também vamos aplicar uma fontSize para aumentarmos o tamanho da fonte.O fontSize pode ser 16. É legal que quando alteramos o fontSize, nós alterarmos o lineHeight também, para sabermos corretamente o quanto que a fonte está ocupando dentro do nosso layout.
+
+[10: 30] Então vamos setar aqui 26. Salvamos! Agora nós já temos aqui o texto um pouco maior, falta só setarmos a fontWeight, colocarmos ele em negrito: fontWeight: "bold".Aí, como nós estamos usando o Text, nós vamos capturar essa propriedade lá dentro, como fizemos na última aula.
+
+[10: 56] Agora nós temos o nosso botão aqui correto e pronto para ser utilizado.Nós já adicionamos, vamos ver aqui nos "Detalhes".Nós já chamamos ele lá de dentro dos "mocks", o texto do botão já está sendo adicionado de dentro dos "mocks".
+
+[11: 13] Vamos dar uma olhada aqui na documentação novamente.Nós temos o TouchableOpacity e o TouchableWithoutFeedback.Qual a diferença entre eles ? O que quer dizer isso ?
+
+  [11: 24] É só traduzirmos do inglês mesmo.O TouchableOpacity vai fazer uma opacidade, um feedback de opacidade, um retorno para o usuário.Quando ele clicar, o botão vai ficar um pouco apagado.Então vamos testar na nossa aplicação aqui! O botão dá uma apagada, então dá para vermos que nós estamos clicando no botão.
+
+[11: 43] O TouchableWithoutFeedback faria com que nada acontecesse.Quando nós clicássemos, nada iria acontecer.Porém, o parâmetro onPress que nós não adicionamos aqui, mas que podemos adicionar o onPress, ele seria executado.
+
+[12: 59] E aqui dentro, nós poderíamos colocar uma função do que nós queremos que execute.No nosso caso, nós não temos nada para executarmos, por enquanto.Nós até podemos deixar dessa forma, mas cada vez que nós clicamos aqui, a aplicação está chamando essa função que está aqui dentro.
+
+[12: 15] Então na próxima aula nós vamos continuar a nossa aplicação, começando a criar a nossa lista de itens da nossa cesta.Te verei na próxima aula!
+
+@@04
+Reaproveitando o botão
+
+Neste último vídeo, adicionamos o botão nos detalhes da nossa aplicação. E se quiséssemos adicioná-lo em outro lugar também?
+Teríamos de copiar a estrutura e os estilos, replicando tudo, além de que, se quiséssemos alterar algo em todos os botões, teríamos que passar um a um. Mas isso daria muito trabalho, certo?
+
+Uma forma de facilitar a nossa vida é reaproveitar o botão de compra que já vimos, criando um “molde” de botão para reutilizar quantas vezes você precisar no projeto. E a gente reaproveita o botão de compra, que já fizemos, isolando o botão. E como fazer isso? É o que vamos praticar!
+
+A proposta deste desafio é que você isole o botão em um componente dentro da pasta src/componentes, e, assim, esse botão poderá ser reutilizado, seguindo os conceitos que utilizamos na “Aula 3 - Refatorando”.
+
+Há inúmeras formas corretas de fazer o isolamento do botão. Você pode passar só o texto, como o componente Button recebe o title, ou você pode passar o children para permitir uma customização maior, assim como o touchable opacity recebe.
+Neste desafio, o importante é que você consiga atingir os pontos e objetivos a seguir:
+
+Os estilos do botão e do texto do botão foram movidos para dentro do novo componente;
+O estilo de marginTop do botão foi mantido em detalhes, pois nem todos os botões irão precisar da mesma margem;
+A propriedade style foi passada para o componente e aplicada junto com os estilos do botão no TouchableOpacity para permitir passar estilos de fora do novo componente;
+O onPress também deve ser passado para o componente, para que possamos dizer o que acontece ao apertar o botão;
+O texto do botão deve ser passado de fora do botão, seja por propriedades ou passando como filho (children).
+O commit de um exemplo do resultado, você pode acessar nesse link.
+
+A ideia desta atividade é que você possa se desafiar e construir seu conhecimento e aprendizado de forma prática! Seria muito legal se você compartilhar sua resposta a esse desafio no fórum da Alura!
+
+https://github.com/alura-cursos/react-native-comecando-do-zero/commit/0971e37ef3cca64123b0d926afcda2b02bce0b1f
+
+@@05
+Componente de lista
+
+[00:00] E agora neste vídeo nós vamos criar o componente para armazenarmos os itens da nossa cesta. Então vai ter um título, Itens da cesta, e vai ter os itens aqui listados com uma imagem do lado. Então: o tomate, brócolis, batata, pepino e abóbora.
+[00:15] Vamos para o nosso projeto para criar o nosso componente dentro de "src>telas>Cesta>componentes". Vamos criar o componente de "Itens.js". Aí nós fazemos a mesma coisa que nós fizemos em todos os componentes.
+
+[00:32] import React from 'react' para que possamos utilizar as tags e export default function Itens, para criarmos o nosso componente em forma de função. Aí nós retornamos o que queremos retornar dentro do nosso componente.
+
+[00:51] Então vamos começar aqui com o fragmento, que vai ter várias coisas dentro do nosso componente. Aí nós podemos colocar aqui primeiro o texto, o título.
+
+[01:02] Vamos adicionar o texto de título. Para isso, nós precisamos importar o Texto - import Texto, aqui em cima, no começo do arquivo; from o nosso componente de texto com a fonte customizada que nós criamos. Então nós voltamos três pastas: ../../../componentes/Texto.
+
+[01:21] Agora nós usamos aqui dentro do fragmento do return da função o Texto e nós escrevemos alguma coisa aqui dentro, que é o Itens da cesta. É o título. Esse é o texto de título.
+
+[01:36] Vamos salvar. Nada aconteceu porque não estamos chamando esse "Itens" no "index". Então temos que vir aqui no "index" da cesta e, logo abaixo dos Detalhes, dentro da View de cesta ainda, porque a lista também tem aquela margem, dentro da View de cesta nós chamamos os Itens.
+
+[01:56] E aí já podemos reparar aqui que nós vamos precisar adicionar as strings dos itens lá dentro do nosso arquivo de "mocks" porque aqui ele está passando todos os outros.
+
+[02:06] Nós também precisamos importar os itens. Então aqui em cima no "Index.js", vamos importar Itens from './componentes/Itens'. Nós importamos o nosso componente que vai ter a lista de itens.
+
+[02:24] Vamos salvar. Nós já temos aqui o Itens da cesta, ele já está sendo exibido. Vamos, então, para os nossos "mocks" para adicionarmos as strings certas, os textos certos.
+
+[02:35] Dentro de "src>mocks>Cesta.js" vamos começar a adicionar aqui uma nova propriedade dentro do objeto de cesta que vai ser irmã do topo e do detalhes, que vai se chamar itens:. Vai ser um objeto que vai ter o titulo, que é o texto que nós colocamos ali, Itens da cesta.
+
+[03:02] E aí nós vamos ter os itens mesmo. Vou colocar aqui lista. Essa lista de itens vai ser uma lista, então nós temos que utilizar os colchetes neste caso e aí nós podemos utilizar as chaves para determinarmos cada item da nossa lista. Cada item da nossa lista vai ter duas coisas: o nome dele, que seja tomate, pepino; e vai ter a imagem também.
+
+[03:24] Então eu vou adicionar o nome aqui. O primeiro pode ser o Tomate. Aí nós precisamos colocar a imagem dele também, porque essa imagem pode mudar de acordo com as nossas variáveis. Cada fruta aqui vai ter uma imagem diferente.
+
+[03:44] Então vamos importar ela aqui, da mesma forma que importamos a logo. No topo do nosso "mock" nós vamos digitar import tomate from. Nós voltamos uma pasta, voltamos duas pastas e dentro de "assets" nós vamos ter as frutas/tomate.png, que é uma imagem.
+
+[04:14] Nós copiamos aqui o tomate e colocamos dentro do nosso objeto da lista. Então vai ser o nome: "Tomate" e imagem: tomate. Vamos salvar aqui. Ainda não está acontecendo nada porque não estamos usando, mas não deu nenhum erro.
+
+[04:33] Então vamos continuar com nossa lista aqui! Eu vou copiar vários aqui para irmos alterando só. O segundo item da lista vai ter o nome de Brócolis e a imagem vai ser a imagem do brócolis.
+
+[04:50] Então nós temos que copiar o import também. O brocolis e nós temos que colocar o nome da imagem no import certo, como Brócolis - com acento também, porque o arquivo tem acento. Então, nós colocamos a imagem do Brócolis como brocolis.
+
+[05:11] O terceiro item vai ser a batata. Adicionamos o import da imagem da batata também: batata from ../../assets/frutas/Batata. Aí nós colocamos a imagem da Batata como o import da batata.
+
+[05:34] Falta o pepino. import do pepino também. Aqui em cima, então: import pepino from, lá na pasta de "assets", Pepino, com P maiúsculo, igual como está lá dentro da pasta. Utilizamos a imagem aqui.
+
+[05:56] Por último, vamos criar aqui o nome Abóbora. Tem que ser entre aspas aqui e a imagem vai ser a imagem da abobora que vamos adicionar lá em cima. Importamos: import abobora from. Voltamos duas pastas, entramos dentro da pasta de "assets", dentro das frutas/Abóbora.png, com acento.
+
+[06:35] Vamos salvar. Nada aconteceu ainda porque ainda não estamos usando nenhuma dessas coisas. Então, a primeira coisa que vamos fazer é usar o titulo.
+
+[06:45] Vamos voltar para o "index" da nossa Cesta e começar a passar os nossos itens. Então aqui onde nós declaramos a função da Cesta, nós estamos pegando topo, detalhes e vamos pegar também os itens.
+
+[07:00] Aí, quando nós chamamos o nosso componente de itens, nós vamos desconstruir os itens, então, adicionando três pontos itens para passarmoa aqui separadamente o título e a lista. Aí nós podemos salvar e pegar o título e a lista de dentro do nosso componente de itens, da mesma forma que fizemos no "index".
+
+[07:25] Então: titulo, lista como parâmetros aqui dentro do objeto, da função de Itens. Copiamos aqui o título e vamos substituir pelo Texto que está fixo. Dentro do Texto, nós estamos ali Itens da cesta. Vamos apagar e adicionar o título entre chaves aqui para que o texto seja printado na tela.
+
+[07:49] Salvamos e vemos que está funcionando. Isso quer dizer que está tudo certo. Se nós alterarmos agora lá no nosso "mock" do título da nossa cesta, dos nossos itens. Vamos salvar. Ele está alterando, então ele está pegando certo os valores.
+
+[08:06] Agora podemos fechar aqui o "index" e também podemos fechar o "mock". Vamos começar a exibir os nossos itens da nossa lista de itens. Então, como que nós podemos fazer isso?
+
+[08:19] A nossa lista de itens é uma lista. Se você vem do JavaScript, você pode pensar que nós podemos utilizar um map para exibirmos essa lista. Então nós fazemos o seguinte: nós abrimos e fechamos chaves, chamamos a lista.map.
+
+[08:41] O método map de dentro dos arrays no JavaScript faz o quê? Ele percorre cada elemento da lista e nós podemos alterar ele para fazermos alguma coisa e retornarmos uma nova lista.
+
+[08:54] Então, o que nós podemos fazer aqui? Para que nós vamos alterar isso? Nós vamos alterar para exibir o componente que nós queremos que ele exiba. Então, aqui dentro do map, nós utilizamos uma função e aqui nós podemos chamar o nosso Texto de novo. Essa função vai receber os elementos da lista.
+
+[09:13] Então aqui dentro da lista nós vamos ter o nome, imagem da nossa fruta, da nossa verdura. Então, se nós printarmos o nome aqui, teoricamente ele teria que listar todos os nomes. Vamos salvar e ver o que acontece.
+
+[09:29] É claro que não está aparecendo nada, porque nós estamos chamando uma função, mas nós não estamos retornando esse texto. Então temos que dar um return aqui. Retornando ele, nós temos aqui os nossos itens da nossa lista: o tomate e o brócolis. Está dando um erro aqui, um warning na verdade.
+
+[09:48] Ele fala aqui que todo filho de uma lista tem que ter a key, a propriedade key única. Então, é isso que nós vamos fazer! Aqui dentro do Texto, nós podemos adicionar a key =, pode ser o nome porque cada fruta tem um nome diferente aqui, então ela não vai se repetir, nesse caso.
+
+[10:07] Pronto, agora nós já resolvemos esse problema da key e nós estamos exibindo aqui os nomes das frutas! Nós também gostaríamos de exibir a imagem. Então aqui, ao invés de retornar um Texto, eu vou retornar uma View que vai ter esse Texto dentro, o Texto do nome, mas também a imagem.
+
+[10:30] Vamos mudar essa key de dentro do Texto para a View, porque o filho agora vai ser a View e não mais o Texto.
+
+[10:38] E agora nós adicionamos também o parâmetro, o componente imagem que vem do react-native. Então nós temos que importar a Image usando as chaves from react-native.
+
+[10:39] Agora nós utilizamos o componente Image aqui embaixo do Texto. Digitamos Image e podemos chamar o source e dentro do source nós passamos a imagem que nós acabamos de buscar aqui da lista pelo map.
+
+[11:18] Esquecemos de importar a View também. Nós precisamos importar a View de react-native e a imagem. Agora nós temos aqui o tomate e cadê o resto das coisas?
+
+[11:29] Não está dando para ver. Isso é porque o React Native não faz o scroll automático. Ele não nos deixa rolar a página para baixo, a tela para baixo, automaticamente. Nós precisamos fazer isso manualmente.
+
+[11:42] Como fazemos isso, então? Vamos voltar aqui dentro da "Cesta", no "index.js", o "index" da "Cesta", onde vai ter todos os nossos conteúdos. Aqui, ao invés de nós utilizarmos esse fragmento que estamos utilizando para botar o topo e a View, nós vamos utilizar uma ScrollView.
+
+[12:00] Então nós precisamos importar ela aqui no react-native, ScrollView e nós utilizamos ela aqui no lugar do fragmento. Então tudo vai estar dentro dessa ScrollView. Vamos colocar aqui também no fechamento. Vamos salvar e ver o que acontece.
+
+[12:19] Agora não mudou nada, mas nós podemos fazer o scroll. Então com o ScrollView nós podemos permitir fazer o scroll da nossa aplicação.
+
+[12:31] Vamos continuar aqui editando os nossos itens. Vamos estilizar eles, estilizar a nossa lista agora. Então, vamos começar aqui pelo Texto. Primeiro, nós temos que criar uma constante no final do nosso arquivo de "Itens", no nosso arquivo do componente de "Itens", nós criamos uma constante chamada estilos que vai ser igual à StyleSheet, que nós precisamos importar aqui do react-native.
+
+[13:07] StyleSheet.create, da mesma forma que fizemos os estilos em todos os outros componentes. Aí podemos colocar aqui o estilo chamado titulo. E esse estilo chamado titulo vai ter o quê?
+
+[13:22] Aí nós podemos mudar a cor do titulo - color, vamos colocar um cinza um pouco mais claro. Então essa cor é #464646. Nós também queremos que ele fique em negrito, então: fontWeight: "bold".
+
+[13:45] Também seria legal que ele tivesse uma marginTop de 32 para dar um espaço maior, um espaçamento maior antes do botão e não está acontecendo nada porque nós precisamos aplicar esse titulo dentro do Texto do titulo.
+
+[14:01] Então, vamos fazer isso já! Adicionando ele style={estilos.titulo} para nós já conseguirmos ver as coisas alterando. Já temos a margem, a cor e ele já está em negrito.
+
+[14:14] Nós precisamos botar uma margem para baixo, então marginBottom. Mas porque nós não usamos vertical? Porque a margem de baixo vai ser diferente da margem de cima. A margem de baixo nós vamos colocar só 8.
+
+[14:29] Aí nós colocamos aqui a fontSize: pode ser 20 e o lineHeight pode ser 32. Pronto, nós temos aqui os itens da lista já mais parecidos com o que temos no nosso layout! Vamos continuar editando o nosso elemento de item aqui, que é essa nossa View aqui.
+
+[15:00] Então nós podemos chamar ela de item mesmo. Nós criamos aqui um novo estilo chamado item, pode ser um objeto vazio por enquanto. Vamos aplicar o style aqui na nossa View dentro do map, style={estilos.item}.
+
+[15:21] Agora nós temos que fazer com que a imagem fique do lado do texto. Primeiro, vamos reordenar aqui porque colocamos a imagem como segundo. Vamos colocar a imagem antes do Texto. Então, dentro da View vem primeiro a imagem e depois o Texto e aí nós pegamos e fazemos os estilos do item.
+
+[15:43] Podemos colocar aqui o flexDirection mudando de coluna, que está um abaixo do outro, para row para que fique um do lado do outro. Fazendo isso, nós temos a imagem e do lado o texto.
+
+[15:57] O que mais nós podemos fazer? Definir que os elementos vão estar aqui, primeiro com uma borderBottomWidth para definirmos a largura da borda. Nós podemos ver que temos um divisor entre os elementos. Tem essa linha que é uma borda, nada mais que uma borda mesmo.
+
+[16:27] Nós precisamos definir cada elemento da borda. Então primeiro, nós definimos Width dela a largura dela, que vai ser 1. Nós definimos a cor, borderBottomColor, e a cor vai ser #ECECEC.
+
+[16:53] Vamos salvar e ver como está ficando. Ali já tem uma borda e aí nós queremos também um paddingVertical dentro do nosso item, paddingVertical: vai ser 16 para dar um espaçamento legal.
+
+[17:07] E aí nós queremos que o Brócolis fique no centro, alinhado com a imagem que ainda vamos ajustar. Nós podemos fazer com que o Brócolis fique no centro, setando alignItems como center. Vamos salvar. Pronto, agora todos os nomes estão centralizados aqui no eixo vertical!
+
+[17:31] Agora começar a estilizar essa imagem! Primeiro, vamos vir aqui na imagem, na tag de Image e vamos adicionar o style nela para já vermos o que está acontecendo - estilos. imagem, pode ser, estilos.imagem e criamos esse nosso estilo de imagem aqui embaixo dentro dos nossos estilos.
+
+[17:58] Basicamente, nós só precisamos definir o tamanho dela, que vai ser 46 por 46. Então, width (a largura) vai ser 46 e o height (a altura), vai ser 46. Vamos salvar e pronto, já temos a imagem menor.
+
+[18:18] Agora vamos partir para estilizar o Texto aqui. Então eu vou colocar aqui o style dentro do Texto que nós temos do nome: style=estilos.nome.
+
+[18:33] Agora nós viemos aqui nos estilos novamente e criamos esse estilo nome como um objeto. O que vamos ter dentro do estilo nome? Vamos aumentar um pouco a fonte primeiro.
+
+[18:44] Então, fontSize: vai ser 16. Nós alteramos o fontSize, vamos alterar o lineHeighttambém. O lineHeight vai ser 26. Salvamos aqui e já aumentou a fonte do nosso nome.
+
+[19:02] Vamos colocar uma marginLeft também, porque está grudado aqui na imagem, então: marginLeft:, pode ser 11. Aí nós também precisamos mudar a cor, para que ela fique naquele tom de cinza. Digitamos color, que vai ser "#e a cor vai ser 464646.
+
+[19:26] Salvamos e ela já está no tom de cinza. Pronto, nós terminamos a nossa lista de itens! Nós fizemos esse scroll na tela, mas porque colocamos o scroll lá no "index" se nós queríamos que desse scroll só a lista de itens, por exemplo?
+
+[19:48] Por que nós colocamos ele aqui dentro da cesta, ao invés de colocarmos na lista de itens? Porque se nós colocássemos dentro da lista de itens, somente essa parte de baixo ia fazer o scroll.
+
+[19:59] Aí, aqui nesse telefone, que teoricamente é grande, já ia ter bem pouco espaço para scrollar. Então só essa área aqui ia scrollar. Imagine um celular pequeno, não ia nem aparecer! É legal ter o scroll aqui ao redor de tudo e é importante pensarmos sempre nisso.
+
+[20:18] Mesmo que sua aplicação tenha uma tela que no seu celular nem esteja chegando perto do fim. Você pode pensar, o que vai acontecer se a pessoa rodar em um celular menor, com uma tela menor?
+
+[20:31] Então é importante que você sempre coloque o ScrollView, se você ficou na dúvida, se você acha que pode dar algum problema. Então, fica aí a dica de colocar a ScrollView.
+
+[20:43] Nós terminamos a nossa lista de itens utilizando o map, mas o map não é a melhor forma de fazermos uma lista no react-native. Então na próxima aula, no próximo vídeo, nós vamos utilizar o componente do próprio React Native que é mais otimizada para exibir as listas. Te verei na próxima aula!
+
+@@06
+FlatList
+
+[00:00] Agora nós já estilizamos aqui e criamos a nossa lista, mas nós estamos utilizando o map e essa forma não é a mais otimizada para exibirmos listas. Isso porque o map simplesmente está replicando o mesmo componente para baixo. É como se nós estivéssemos copiando e colando componentes lá no fundo para o React Native é como se estivesse fazendo isso.
+[00:21] Mas imagine agora se nós tivéssemos uma lista muito grande que veio de uma API, de um banco de dados. Agora nós estamos utilizando o "mock", mas futuramente nós não sabemos o que pode acontecer. Então, pode ser que venha uma lista grande.
+
+[00:35] Imagine o celular que já está processando alguma outra coisa em background e ele não é tão potente assim, tão atual e ele tem que carregar todos esses itens, texto e imagem na tela tudo de uma vez.
+
+[00:48] O celular vai travar com certeza! Então, para isso, para otimizarmos a nossa lista, existe um componente do próprio React Native que faz essa otimização, que é o FlarList.
+
+[00:59] Vamos dar uma olhada aqui na documentação do FlatList, então eu vou abrir aqui o reactnative.dev, o site deles, e digitar FlatList. A FlatList aqui. Então, basicamente, vou rolar aqui para o exemplo, o que podemos fazer.
+
+[01:18] Nós utilizamos ela passando data, que vai ser o nosso array de itens. Nós já temos esse array salvo, nós vamos passar o que está dentro do map, dentro do renderItem para renderizar cada item, cada elemento da nossa lista e o keyExtractor já vai adicionar as keys que nós podemos definir qual o campo da key que nós queremos.
+
+[01:41] Vamos voltar aqui no nosso código. Vou minimizar o navegador, dentro de "src>telas>Cesta>componentes>Itens" e vamos importar a FlatList. Eu vou adicionar ela aqui em cima e deixar o map ali embaixo por enquanto. Nós adicionamos ela em cima do map, embaixo do Texto.
+
+[02:10] Então: FlatList e nós vamos ter que passar o data, que vai ser o quê? A nossa lista. Nós temos que passar também o renderItem, que vai ser o quê? Nós não temos ainda. Seria lega nós termos um método que renderize essa coisa para dentro do nosso map.
+
+[02:35] Então antes de retornarmos alguma coisa, nós vamos criar aqui uma constante que vai ser o renderItem. Ele é uma função que retorna isso tudo. Nós vamos sempre utilizar as chaves para que ele já retorne de vez e não precise utilizar a palavra return para retornar.
+
+[03:04] Então, o que é isso? É uma função que retorna outra coisa. É um componente. O renderItem também é um componente. Vamos utilizar aqui o renderItem e nós vamos precisar também definir aqui os parâmetros que vão ser o nome e a imagem.
+
+[03:23] Para nós pegarmos isso, o renderItem quando nós chamamos do FlatList vai ter um elemento dentro chamado item. Então nós precisamos pegar primeiro o item, como nós podemos ver aqui na documentação. Vamos dar uma olhada aqui.
+
+[03:39] Primeiro, nós pegamos o item e depois o .title. Então temos sempre que chamar o item primeiro e depois para chamarmos o title é só botarmos :title.
+
+[03:53] Na verdade, nós temos que chamar como um objeto dois pontos, abre e fecha chaves com o title dentro e a imagem dentro também. Na verdade, aqui, ao invés de title é nome. O title era no exemplo da documentação. É isso! Nós temos a imagem e o nome da nossa fruta, da nossa verdura.
+
+[04:14] Agora vamos continuar aqui na FlatList. Nós setamos aqui a data como sendo a lista, o renderItem como sendo o renderItem, a função. Falta o quê? Falta o keyExtractor, que vai ser igual a uma função também aqui, onde nós vamos extrair.
+
+[04:36] Qual que é a key? A key é o nome, o parâmetro da função vai ser cada elemento da nossa lista. Então cada elemento da nossa lista tem um nome, basta retornarmos o nome e fecharmos o objeto aqui que não estamos fechando. Ele não abre e fecha, nós podemos fechar ele nele mesmo.
+
+[04:58] Vamos salvar aqui e ver o que acontece. Quando nós carregamos a aplicação, nós vemos que funciona aqui. Nós temos duas listas, mas nós temos um erro aqui, um warning, na verdade.
+
+[05:14] Então se você estiver rodando em uma versão mais recente do React Native, você vai receber o seu warning aqui. Virtualized list should never be inside plain ScrollViews. O que quer dizer? Que listas virtualizadas não devem estar dentro de ScrollViews.
+
+[05:31] Isso acontece. Esse warning acontece porque nós estamos exibindo a FlatList, que só vai carregar os itens que estiverem na tela e nós também criamos aqui a ScrollView, que faz com que nós passamos fazer o scroll.
+
+[05:50] Só que todos os itens do scroll são carregados, porque eles teoricamente estão ali na tela. Então, o que nós temos que fazer? Nós temos que transferir essa lista para fora do Itens.
+
+[06:07] Se dermos uma olhada aqui na documentação do FlatList mesmo, nós podemos utilizar o ListHeaderComponent e o ListFooterComponent para adicionar coisas antes e depois da nossa lista.
+
+[06:22] Então nós precisamos adicionar tudo que vem antes no ListHeaderComponent e tudo que vem depois no ListFooterComponent. Como nós não temos nada depois, é só o Header mesmo. Então vamos fazer isso!
+
+[06:32] Primeiro, nós transferimos. Vamos apagar aqui o map de dentro dos itens, nós já apagamos ele e aqui nós vamos ter só a lista normal. Não vai ter duas listas, vai ter só a FlatList mesmo. Vamos copiar essa FlatList aqui e passar ela para dentro da Cesta. Então vamos colocar ela como primeiro elemento aqui, dentro do "index.js" da "Cesta".
+
+[07:07] Eu vou tirar o ScrollView para que ele fique só um fragmento mesmo e aí nós vamos primeiro mudar aqui a lista que vai estar dentro dos itens. Então, itens.lista e aí vamos passar o renderItem. O renderItem vai ser lá dentro do Itens e ele pode ser o próprio item. Nós podemos renomear ele aqui.
+
+[07:37] Então, ao invés de nós importarmos no "index" da "Cesta" o itens, nós vamos importar o item e vamos renomear ele aqui. Vai dar um erro porque estamos mexendo nele, vai renomear ele para "Item" e aqui no "Item" nós vamos retornar apenas esse renderItem que nós utilizamos anteriormente.
+
+[08:02] Então nós copiamos os parâmetros aqui. Vai ter o item, o nome e a imagem, e nós copiamos eles para retornarmos return apenas à View. A key não precisamos mais, porque nós já estamos utilizando o keyExtractor e o return de baixo também podemos apagar.
+
+[08:25] Os estilos nós deixamos aqui, tirando o titulo que nós temos que passar para o outro arquivo. Então, vamos lá! O que nós fizemos aqui? Nós renomeamos o nosso arquivo de "Itens" para "Item", nós alteramos o nome da função de itens para item, nós alteramos os parâmetros da função para que eles fossem os mesmos parâmetros do renderItem.
+
+[08:48] Então vai ser item: {nome, imagem}. Nós colocamos o return como o return exatamente igual do renderItem. Aí nós deixamos os estilos aqui, só pegando o titulo. Então eu vou apertar as teclas "Ctrl + X" no título dentro do "Item.js" e vou colar aqui no nosso estilos do "index" da nossa "cesta".
+
+[09:18] Nós ainda estamos recebendo o erro aqui, porque não importamos a FlatList dentro da Cesta, então vamos importar a FlatList e remover o scroll, o ScrollView. Aí nós precisamos utilizar qual é o renderItem. Então o renderItem vai ser o Item mesmo, o componente que acabamos de criar.
+
+[09:42] Ele não consegue achar a variável Itens, porque essa variável que estávamos usando antes. Então eu vou apagar ela aqui para nós testarmos. Nós temos aqui a lista em cima que não está fazendo muito sentido, porque ela está sendo listada por primeiro. Nós temos o topo e depois os detalhes que não estão dando para scrollar ainda.
+
+[10:02] Vamos ajustar primeiro colocando o Header aqui em cima. Então nós utilizamos o ListHeader, dentro da FlatList, ListHeaderComponent; e o LisHeaderComponent vai ser igual a um componente. Então nós podemos chamar uma função aqui mesmo. Essa função vai ter o quê?
+
+[10:25] Vamos utilizar um fragmento aqui para retornar várias coisas. Então nós vamos retornar primeiro o Topo e mover aqui o Topo para dentro desse fragmento.
+
+[10:36] Lembrando de retornar ele também, senão não vai funcionar. Aí nós vamos copiar aqui também. Movemos tudo que está dentro da View da Cesta e os Detalhes aqui para dentro também.
+
+[10:49] Vamos salvar! Nós já temos as coisas mais organizadas e pronto, agora o scroll já está funcionando. Uma coisa importante para lembrarmos também é de declarar aqui, a nossa tela não vai passar para baixo.
+
+[11:05] Então nós precisamos vir aqui em "App.js" e a nossa View da nossa tela é a SafeAreaView. Nós precisamos vir aqui na SafeAreaView do "App.js", que está na raiz do projeto, e definir o style. Aqui pode ser inline mesmo. Nós definimos aqui flex: 1.
+
+[11:23] O que isso quer dizer? Quer dizer que o tamanho do flex vai ser sempre o tamanho da tela inteira. Agora nós já definimos aqui para que ele carregue só o que está visível na tela e a nossa tela vai ser somente do tamanho da nossa tela mesmo. A nossa View vai ser do tamanho da nossa tela.
+
+[11:47] Agora falta adicionarmos a margem. Nós adicionamos essa margem dentro dos estilos, nós precisamos adicionar essa margem dentro de cada um dos elementos aqui. Senão eles vão ficar colados ao redor dos nossos itens da lista.
+
+[12:05] Então nós podemos copiar esse paddingHorizontal dentro do "Item.js", nos nossos elementos da lista. Nós vamos aplicar no item um paddingHorizontal de 16.
+
+[12:21] Se nós estamos aplicando um paddingVertical: 16 e paddingHorizontal: 16, vamos simplesmente aplicar um padding: 16. Vamos apagar o paddingHorizontal. Nós salvamos e aí depois de darmos um refresh nós já teremos aqui a nossa lista sendo carregada com o padding em cada um dos itens.
+
+[12:42] Agora nós excluímos o título que estava aqui em cima. Então vamos voltar aqui no "index" e adicionar o título. Nós já temos o estilo aqui, então é só adicionarmos aqui no Header, embaixo dos Detalhes, um Text, um Texto, na verdade; com itens.titulo, o título dos itens.
+
+[13:10] Aí nós precisamos importar o Texto dos nossos componentes, então: import Texto from. Voltamos uma pasta, duas pastas: componentes/texto e nós também precisamos definir o estilo do Texto. Quando nós chamamos o texto, vamos chamar aqui o style={estilos.titulo}. Vamos salvar isso aqui. Nós já temos o título da cesta carregado também.
+
+[13:45] Aqui nós podemos ver que a linha divisória entre cada um dos itens não está exatamente igual ao nosso layout. Ela está fora a fora aqui da esquerda para a direita, nós queríamos que ficasse uma margem aqui na linha também.
+
+[13:59] Por que não está ficando uma margem na linha também? Porque aqui no "Item" nós estamos definindo padding: 16, se definirmos margin:16. Vamos salvar e recarregar aqui. Damos reload, aí nós vamos ter o espaçamento ao redor de 16, e não mais o espaçamento interno.
+
+[14:22] Mas aí nós temos um problema: aqui vai ficar colada à lista. Então vamos voltar aqui para padding e vamos adicionar só o paddingVertical. Voltamos o paddingVertical aqui nos estilos do item para que a linha fique descolada da imagem e aí nós adicionamos o paddingHorizontal. Agora ele está colado de volta, nós adicionamos o paddingHorizontal somente aqui na nossa FlatList.
+
+[14:56] Para isso, vamos criar aqui dentro do "index" mais um estilo, chamado lista. Essa lista vai ter um paddingHorizontal: 16. Aí nós aplicamos essa lista como estilo da nossa lista. Então basta virmos aqui na nossa FlatList e adicionar o style={estilos.lista}.
+
+[15:25] Pronto! E aí nós temos um problema: todos os itens estão com a boarder, o divisor fora a fora aqui da esquerda para a direita e não está fazendo aquela margem igual estávamos vendo anteriormente - que nós queríamos deixar a margem aqui, não queríamos que ficasse a linha fora a fora no componente.
+
+[15:45] Como nós podemos fazer isso? Vamos voltar aqui no "Item.js" e dar uma olhada aqui. Nós aplicamos o padding: 16 em todos os componentes. Então quer dizer que ele tem aqui o padding interno, mas nós podemos voltar aqui para o paddingVertical. Aí nó aplicamos aqui a marginHorizontal: 16.
+
+[16:08] Aplicando a marginHorizontal: 16 nós vamos ter margem nas laterais e padding em cima e embaixo. Agora nós temos que forçar o recarregamento aqui, vamos dar um reload. Apertei as teclas "Ctrl + M", mas pode ser "Command + M" também... E pronto! Agora nós já temos a nossa lista estilizada aqui, bonita e também otimizada.
+
+[16:32] Lembrando que adicionamos aqui no "App.js" O style={{flex:1}para que a nossa SafeAreaView, a nossa View principal ocupe 100% da tela, não 200%, para que ela não continue invisível e para que a nossa FlatList fique como componente principal da nossa aplicação e ela renderize somente os itens que estão visíveis.
+
+[16:58] Aí nós adicionamos também foi ListHeaderComponent para adicionar todos os outros componentes que tinha na nossa tela.
+
+[17:05] Na próxima aula nós vamos fazer uma revisão, uma conclusão sobre o nosso curso. Te verei no próximo vídeo!
+
+@@07
+Lista
+
+Nessa aula, criamos a lista de itens da nossa aplicação. Nosso percurso foi o seguinte: primeiro, percorremos a lista por completo e, depois, usamos o componente do próprio React Native para listas.
+Assinale, abaixo, qual é a opção verdadeira em relação aos conceitos que aprendemos sobre listas e otimização de listas.
+
+Precisamos refatorar nossa tela para que o componente principal seja a FlatList, adicionando como Header e Footer da FlatList, o restante dos componentes e definindo a view superior para ocupar 100% da tela. Dessa forma, a FlatList carrega apenas os componentes que estão visíveis na tela.
+ 
+Alternativa correta! Isso mesmo, a FlatList como principal componente já faz o scroll da tela. E, definindo a view principal para ocupar 100% da tela com flex: 1 nos estilos, faz com que apenas os itens visíveis sejam carregados, otimizando assim a nossa aplicação.
+Alternativa correta
+Utilizar a FlatList é a melhor forma de exibir a lista, pois ela já otimiza a lista automaticamente, carregando apenas os itens que estiverem visíveis na tela. Mas, para que o usuário possa fazer a rolagem (scroll) da tela, precisamos adicionar o ScrollView.
+ 
+Quando usamos ScrollView, todo o conteúdo da tela é carregado de uma vez só, fazendo com que a otimização da FlatList não seja totalmente aplicada, o que pode causar problemas de performance.
+Alternativa correta
+Podemos exibir listas utilizando tanto o conceito de percorrer a lista, como o map, quanto o componente FlatList. Ambos parecem retornar o mesmo resultado, porém, quando se tratam de listas muito grandes, devemos usar o map ao invés do FlatList, aplicando o parâmetro key para otimização.
+ 
+Na realidade, usar o map é quase a mesma coisa que copiar e colar os elementos manualmente na questão do primeiro carregamento, e, mesmo usando key, todos os elementos serão exibidos na tela de uma vez, o que pode causar travamentos.
+
+@@08
+Para saber mais: Eject
+
+Com o Expo, podemos criar uma aplicação utilizando React Native, executá-la sem a necessidade de instalar um ambiente complexo e até publicar nas lojas. Porém, como já vimos anteriormente, o Expo tem suas limitações e pode chegar o momento em que você tenha que usar recursos que não estão disponíveis no Expo.
+E nessa hora, você pode se perguntar: e agora, terei de desenvolver tudo novamente com React Native CLI fora do Expo? Na verdade, o Expo permite gerar os arquivos nativos que faltavam para executar no react native puro.
+
+Esse processo é chamado de eject, e você pode acessar a documentação oficial clicando aqui. É importante que você leia a documentação para entender se você realmente precisa fazer isso.
+
+Uma observação importante é que, neste curso, não vamos ver como executar os arquivos que o eject gera, pois precisamos instalar o ambiente Android e o iOS nativo. Porém, é interessante que você saiba da existência do eject para ajudar a tomar a decisão de qual CLI usar (Expo ou React Native). Sabendo que é possível ejetar do Expo, você pode começar uma aplicação simples, sem medo de que possíveis novas features não possam ser implementadas.
+
+https://docs.expo.dev/expokit/eject/
+
+@@09
+Desafio: Aplicando o Eject
+
+Se você ficou curioso sobre o eject e quer testar essa funcionalidade (mesmo que não precise), esse desafio é para você! Tente ejetar a aplicação e executá-la com React Native puro!
+Saiba que fazer esse desafio vai ajudar muito em seus estudos, e mesmo em cursos futuros da Alura. Vamos lá?
+
+Para fazer isso, você irá precisar instalar o ambiente Android e/ou iOS nativo. Lembramos que, se você quer executar o iOS nativo, é indispensável que esteja no macOS. Mas, no caso do Android, é possível executá-lo na maioria das plataformas. Siga os passos desse artigo para configurar o ambiente desejado na sua máquina (e reforçamos, mais uma vez, que esse desafio pode ser útil inclusive para prosseguir com os outros cursos da Alura).
+
+Agora, basta seguir os passos da documentação. Caso tenha dúvidas, seja na tradução ou em algum passo, você pode conferir o passo a passo traduzido e com dicas abaixo, em “Opinião do Instrutor”.
+
+E claro, depois de cumprir o desafio, compartilhe os seus resultados com a gente, no fórum da Alura! Isso é muito importante, também, para ajudar pessoas em seus estudos.
+
+https://www.alura.com.br/artigos/configurando-o-ambiente-react-native?utm_source=gnarus&utm_medium=timeline&_gl=1*m7cphx*_ga*MTgwMzIzMjk2Ni4xNjg4ODE5OTcz*_ga_1EPWSW3PCS*MTcwMDQwNjEyNi4xMDkuMS4xNzAwNDA4ODg0LjAuMC4w*_fplc*WEdIbkY1bG5kQlRFQlVJbCUyRjM3bVgycyUyRmVIeDhDRVZmb3M0Z1BuV3E2cXZNNk5sM00xdXl1Z0xmWDA0U1UycEN6Q3hpMjg3MjZ0TnZ5ZCUyQmRHUnVJc3ltU3BGR2oxdFJ3Z3BmdGdncGhaUWZ0d0FVMEdxdzJSTGNJSGgzQkJBJTNEJTNE
+
+https://docs.expo.dev/expokit/eject/#instructions
+
+Neste desafio, nosso objetivo é fazer um teste com a funcionalidade Eject.
+Para usar o eject, basta seguir o passo a passo que a documentação nos fornece:
+
+1) Instale o expo (se você chegou até aqui por meio deste curso, já tem o expo instalado e pode pular para o passo 2).
+
+npm install -g expo-cliCOPIAR CÓDIGO
+2) Verifique as configurações do app.json. Ele deve ter todos as propriedades, abaixo, preenchidas:
+
+{
+   "expo": {
+    "name": "Nome do Seu Aplicativo",
+    "icon": "./caminho/do/icone.png",
+    "version": "1.0.0",
+    "slug": "nome-sem-formatacao",
+    "ios": {
+      "bundleIdentifier": "com.suaempresa.nomedoaplicativosemtraco",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.suaempresa.nomedoaplicativosemtraco",
+      "versionCode": 1
+    }
+   }
+ }COPIAR CÓDIGO
+3) Execute o comando expo eject dentro do projeto e siga o passo a passo no terminal, se houver.
+
+4) Instale o ambiente nativo de Android ou iOS (que você já fez seguindo o artigo acima).
+
+5) Rode o projeto.
+
+Pronto! Instalamos o ambiente nativo de Android ou iOs e rodamos o eject! Muito bem!
+
+Agora, vamos rodar a aplicação com o React Native CLI! Mas antes, precisamos baixar todas as bibliotecas do projeto, então, digite o código no seu terminal (dentro da pasta do projeto):
+
+npm installCOPIAR CÓDIGO
+Para iniciar o bundle do React Native (esse terminal irá se manter aberto rodando até ser cancelado com Ctrl+C):
+
+npx react-native startCOPIAR CÓDIGO
+Para rodar a aplicação na plataforma desejada:
+
+npx react-native run-android
+npx react-native run-iosCOPIAR CÓDIGO
+Agora você deve ter o projeto rodando de forma ejetada, sem o expo. Sucesso!
+
+@@10
+Faça como eu fiz
+
+Chegou a hora de você seguir todos os passos realizados por mim durante esta aula. Caso já tenha feito, excelente. Se ainda não, é importante que você execute o que foi visto nos vídeos para poder continuar com os próximos cursos que tenham este como pré-requisito.
+
+Continue com os seus estudos, e se houver dúvidas, não hesite em recorrer ao nosso fórum!
+
+@@11
+Projeto final do curso
+
+Caso queira acessar todos os códigos, você pode baixar o projeto completo a partir desse link.
+
+@@12
+O que aprendemos?
+
+Nesta aula, aprendemos:
+Button:
+Aprendemos a usar o Button, que é um botão simples e com pouca customização.
+Botão Customizado:
+Com os componentes TouchableOpacity, TouchableWithoutFeesback, criamos botões muito mais customizados.
+ScrollView:
+Aprendemos a usar a ScrollView para permitir rolagem na tela, desde que não usando FlatList, pois há incompatibilidades entre esses dois componentes.
+FlatList:
+Aprendemos a otimizar listas e fazer a rolagem da tela exclusivamente com o FlatList.
+
+@@13
+Conclusão
+
+[00:00] Parabéns a você que chegou até o fim deste curso de React Native! Aqui nós aprendemos a utilizar o npm, que é o gerenciador de pacotes do Node para baixar e instalar o Expo CLI, que é o Command Line Interface, interface de linha de comando do Expo para criar o nosso projeto.
+[00:19] Então ele gerou para nós todas essas pastas e nós começamos a modificar o nosso projeto. Criamos alguns componentes reutilizáveis, como Texto; criamos e utilizamos componentes do próprio React Native, como FlatList, StyleSheet e View.
+
+[00:32] Nós utilizamos Text também no nosso Texto. Nós utilizamos Image para exibirmos imagens. Nós utilizamos o SafeAreaView para criarmos aquela área segura, para que possamos rodar tanto no Android quanto no iOS, nós estilizamos para que todas as coisas ficassem dentro da tela bonitas.
+
+[01:04] Nós também trabalhamos com bibliotecas externas, como por exemplo, as fontes. Nós utilizamos o @expo-google-fonts, nós utilizamos o expo-app-loading para fazermos com que o aplicativo esperasse e ficasse na tela de loading enquanto essa fonte carregava.
+
+[01:21] Nós aprendemos a fazer uma lista - e não só uma lista, uma lista otimizada para que ela carregue apenas os itens que estão aparecendo na tela e não travem o nosso dispositivo.
+
+[01:34] E utilizando o Expo nós também não precisamos instalar nenhum SDK de Android, de iOS, nem o Android Studio e nem X Code, que normalmente precisaríamos instalar se fossemos trabalhar com o React Native CLI, com a linha de comando do React Native puro mesmo.
+
+[01:51] Agora, o que eu farei depois se eu querer implementar alguma coisa? Eu não sei como que eu farei isso. É simples, faça como fizemos aqui nas aulas. Olhe a documentação dessa ferramenta, dessa feature que você quer implementar porque lá vai estar escrito.
+
+[02:08] Mesmo que em inglês, você consegue olhar os exemplos, os códigos, e tentar entender utilizando os conceitos que aprendemos aqui de parâmetros e dos componentes. Você consegue, com certeza, acompanhar alguma outra biblioteca e adicionar alguma outra biblioteca, alguma outra feature na sua aplicação.
+
+[02:26] Além de revisar o que aprendemos neste curso, eu também queria incentivar você a compartilhar o seu projeto em alguma das redes sociais como LinkedIn. Coloque o seu projeto em um repositório, como GitHub, faz um portifólio para você apresentar os seus projetos para as outras pessoas.
+
+[02:44] Espero que você tenha uma boa jornada aqui com o React Native e bons estudos!
